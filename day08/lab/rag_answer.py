@@ -27,7 +27,7 @@ from dotenv import load_dotenv
 from sentence_transformers import CrossEncoder
 
 load_dotenv()
-
+hf_token = os.getenv("HF_TOKEN")
 # =============================================================================
 # CẤU HÌNH
 # =============================================================================
@@ -558,7 +558,7 @@ def compare_retrieval_strategies(query: str) -> None:
     print(f"Query: {query}")
     print('='*60)
 
-    strategies = ["dense", "hybrid"]  # Thêm "sparse" sau khi implement
+    strategies = ["dense", "hybrid", "sparse"]  # Thêm "sparse" sau khi implement
 
     for strategy in strategies:
         print(f"\n--- Strategy: {strategy} ---")
