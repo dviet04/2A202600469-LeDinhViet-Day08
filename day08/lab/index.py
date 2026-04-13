@@ -31,7 +31,7 @@ CHROMA_DB_DIR = Path(__file__).parent / "chroma_db"
 
 # TODO Sprint 1: Điều chỉnh chunk size và overlap theo quyết định của nhóm
 # Gợi ý từ slide: chunk 300-500 tokens, overlap 50-80 tokens
-CHUNK_SIZE = 500       # tokens (ước lượng bằng số ký tự / 4)
+CHUNK_SIZE = 450       # tokens (ước lượng bằng số ký tự / 4)
 CHUNK_OVERLAP = 80     # tokens overlap giữa các chunk
 
 
@@ -294,11 +294,20 @@ def _split_by_size(
                 current_chunk = split_text
     
     # Add final chunk
+    # Nếu chunk cuối cùng quá nhỏ (< 30% chunk_chars), append vào chunk trước đó
+    # thay vì tạo chunk riêng
     if current_chunk.strip():
-        chunks.append({
-            "text": current_chunk.strip(),
-            "metadata": {**base_metadata, "section": section},
-        })
+        MIN_CHUNK_THRESHOLD = chunk_chars * 0.3  # 30% của chunk size
+        
+        if chunks and len(current_chunk.strip()) < MIN_CHUNK_THRESHOLD:
+            # Append vào chunk cuối cùng thay vì tạo chunk mới
+            chunks[-1]["text"] += "\n" + current_chunk.strip()
+        else:
+            # Tạo chunk mới
+            chunks.append({
+                "text": current_chunk.strip(),
+                "metadata": {**base_metadata, "section": section},
+            })
     
     return chunks
 
