@@ -4,3 +4,18 @@
 
 # Grading questions — không public trước 17:00
 day08/lab/data/grading_questions.json
+
+# env
+.env
+*.env
+**/.env
+
+# python
+__pycache__/
+*.pyc
+.venv/
+
+# chroma / db
+**/chroma_db/
+*.sqlite3
+*.bin
