@@ -31,7 +31,7 @@ CHROMA_DB_DIR = Path(__file__).parent / "chroma_db"
 
 # TODO Sprint 1: Điều chỉnh chunk size và overlap theo quyết định của nhóm
 # Gợi ý từ slide: chunk 300-500 tokens, overlap 50-80 tokens
-CHUNK_SIZE = 450       # tokens (ước lượng bằng số ký tự / 4)
+CHUNK_SIZE = 500       # tokens (ước lượng bằng số ký tự / 4)
 CHUNK_OVERLAP = 80     # tokens overlap giữa các chunk
 
 
@@ -148,7 +148,7 @@ def chunk_document(doc: Dict[str, Any]) -> List[Dict[str, Any]]:
     current_section_text = ""
     
     # REGEX: Extract section number from section header (Mục 1, Phần 2.1, etc.)
-    section_number_pattern = r"(Mục|Phần|Chương|Section)\s+([\d\.]+)"
+    section_number_pattern = r"(Mục|Phần|Chương|Section|Điều)\s+([\d\.]+)"
 
     for part in sections:
         if re.match(r"===.*?===", part):
@@ -233,26 +233,31 @@ def _split_by_size(
             return [text_to_split[i:i+chunk_chars] for i in range(0, len(text_to_split), chunk_chars)]
         
         separator = separators_list[0]
-        good_splits = []
         
         if separator:
             # Split by current separator
             splits = text_to_split.split(separator)
         else:
             splits = list(text_to_split)  # character-level
+            separator = ""
         
-        # Group splits to reach chunk_chars without exceeding it too much
-        good_split = []
-        for split in splits:
-            if len("".join(good_split + [split])) > chunk_chars:
-                if good_split:
-                    good_splits.append("".join(good_split))
-                good_split = [split]
+        good_splits = []
+        current_split = ""
+        
+        for i, split in enumerate(splits):
+            is_last = (i == len(splits) - 1)
+            # Add separator back if it's not the last element
+            part_with_sep = split + (separator if not is_last else "")
+            
+            if len(current_split) + len(part_with_sep) <= chunk_chars:
+                current_split += part_with_sep
             else:
-                good_split.append(split)
-        
-        if good_split:
-            good_splits.append("".join(good_split))
+                if current_split:
+                    good_splits.append(current_split)
+                current_split = part_with_sep
+                
+        if current_split:
+            good_splits.append(current_split)
         
         # Recursively split any piece that's still too long
         merged_text = []
@@ -270,7 +275,7 @@ def _split_by_size(
     
     # Now merge pieces with overlap context
     current_chunk = ""
-    for i, split_text in enumerate(split_texts):
+    for split_text in split_texts:
         if not split_text:
             continue
             
@@ -294,20 +299,11 @@ def _split_by_size(
                 current_chunk = split_text
     
     # Add final chunk
-    # Nếu chunk cuối cùng quá nhỏ (< 30% chunk_chars), append vào chunk trước đó
-    # thay vì tạo chunk riêng
     if current_chunk.strip():
-        MIN_CHUNK_THRESHOLD = chunk_chars * 0.3  # 30% của chunk size
-        
-        if chunks and len(current_chunk.strip()) < MIN_CHUNK_THRESHOLD:
-            # Append vào chunk cuối cùng thay vì tạo chunk mới
-            chunks[-1]["text"] += "\n" + current_chunk.strip()
-        else:
-            # Tạo chunk mới
-            chunks.append({
-                "text": current_chunk.strip(),
-                "metadata": {**base_metadata, "section": section},
-            })
+        chunks.append({
+            "text": current_chunk.strip(),
+            "metadata": {**base_metadata, "section": section},
+        })
     
     return chunks
 

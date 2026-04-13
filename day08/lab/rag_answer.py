@@ -428,13 +428,21 @@ def build_context_block(chunks: List[Dict[str, Any]]) -> str:
         meta = chunk.get("metadata", {})
         source = meta.get("source", "unknown")
         section = meta.get("section", "")
+        department = meta.get("department", "")
+        effective_date = meta.get("effective_date", "")
+        access = meta.get("access", "")
         score = chunk.get("score", 0)
         text = chunk.get("text", "")
 
-        # TODO: Tùy chỉnh format nếu muốn (thêm effective_date, department, ...)
         header = f"[{i}] {source}"
         if section:
             header += f" | {section}"
+        if department and department != "unknown":
+            header += f" | Dept: {department}"
+        if effective_date and effective_date != "unknown":
+            header += f" | Date: {effective_date}"
+        if access and access != "internal":
+            header += f" | Access: {access}"
         if score > 0:
             header += f" | score={score:.2f}"
 
