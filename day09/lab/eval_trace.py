@@ -252,8 +252,8 @@ def compare_single_vs_multi(
     # TODO: Load Day 08 results nếu có
     # Nếu không có, dùng baseline giả lập để format
     day08_baseline = {
-        "total_questions": 15,
-        "avg_confidence": 0.0,          # TODO: Điền từ Day 08 eval.py
+        "total_questions": 10,
+        "avg_confidence": 5,          # TODO: Điền từ Day 08 eval.py
         "avg_latency_ms": 0,            # TODO: Điền từ Day 08
         "abstain_rate": "?",            # TODO: Điền từ Day 08
         "multi_hop_accuracy": "?",      # TODO: Điền từ Day 08
@@ -319,7 +319,7 @@ if __name__ == "__main__":
     parser.add_argument("--grading", action="store_true", help="Run grading questions")
     parser.add_argument("--analyze", action="store_true", help="Analyze existing traces")
     parser.add_argument("--compare", action="store_true", help="Compare single vs multi")
-    parser.add_argument("--test-file", default="data/test_questions.json", help="Test questions file")
+    parser.add_argument("--test-file", default="data/grading_questions.json", help="Test questions file")
     args = parser.parse_args()
 
     if args.grading:
