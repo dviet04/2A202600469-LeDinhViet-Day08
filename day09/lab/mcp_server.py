@@ -33,6 +33,8 @@ import json
 from datetime import datetime
 from typing import Any, Dict, List, Optional
 
+from fastapi import FastAPI
+from pydantic import BaseModel
 
 # ─────────────────────────────────────────────
 # Tool Definitions (Schema Discovery)
@@ -330,6 +332,24 @@ def dispatch_tool(tool_name: str, tool_input: dict) -> dict:
 # ─────────────────────────────────────────────
 # Test & Demo
 # ─────────────────────────────────────────────
+
+app = FastAPI(title="Lab Day 09 MCP Server")
+
+class ToolCallRequest(BaseModel):
+    input: Dict[str, Any]
+
+@app.get("/tools")
+def http_list_tools():
+    return {"tools": list_tools()}
+
+@app.post("/tools/{tool_name}")
+def http_call_tool(tool_name: str, req: ToolCallRequest):
+    result = dispatch_tool(tool_name, req.input)
+    return {
+        "tool": tool_name,
+        "input": req.input,
+        "output": result,
+    }
 
 if __name__ == "__main__":
     print("=" * 60)

@@ -27,24 +27,53 @@ WORKER_NAME = "policy_tool_worker"
 # MCP Client — Sprint 3: Thay bằng real MCP call
 # ─────────────────────────────────────────────
 
+# def _call_mcp_tool(tool_name: str, tool_input: dict) -> dict:
+#     """
+#     Gọi MCP tool.
+
+#     Sprint 3 TODO: Implement bằng cách import mcp_server hoặc gọi HTTP.
+
+#     Hiện tại: Import trực tiếp từ mcp_server.py (trong-process mock).
+#     """
+#     from datetime import datetime
+
+#     try:
+#         # TODO Sprint 3: Thay bằng real MCP client nếu dùng HTTP server
+#         from mcp_server import dispatch_tool
+#         result = dispatch_tool(tool_name, tool_input)
+#         return {
+#             "tool": tool_name,
+#             "input": tool_input,
+#             "output": result,
+#             "error": None,
+#             "timestamp": datetime.now().isoformat(),
+#         }
+#     except Exception as e:
+#         return {
+#             "tool": tool_name,
+#             "input": tool_input,
+#             "output": None,
+#             "error": {"code": "MCP_CALL_FAILED", "reason": str(e)},
+#             "timestamp": datetime.now().isoformat(),
+#         }
+
 def _call_mcp_tool(tool_name: str, tool_input: dict) -> dict:
-    """
-    Gọi MCP tool.
-
-    Sprint 3 TODO: Implement bằng cách import mcp_server hoặc gọi HTTP.
-
-    Hiện tại: Import trực tiếp từ mcp_server.py (trong-process mock).
-    """
     from datetime import datetime
+    import requests
 
     try:
-        # TODO Sprint 3: Thay bằng real MCP client nếu dùng HTTP server
-        from mcp_server import dispatch_tool
-        result = dispatch_tool(tool_name, tool_input)
+        resp = requests.post(
+            f"http://127.0.0.1:8000/tools/{tool_name}",
+            json={"input": tool_input},
+            timeout=10,
+        )
+        resp.raise_for_status()
+        payload = resp.json()
+
         return {
             "tool": tool_name,
             "input": tool_input,
-            "output": result,
+            "output": payload.get("output"),
             "error": None,
             "timestamp": datetime.now().isoformat(),
         }
@@ -56,8 +85,6 @@ def _call_mcp_tool(tool_name: str, tool_input: dict) -> dict:
             "error": {"code": "MCP_CALL_FAILED", "reason": str(e)},
             "timestamp": datetime.now().isoformat(),
         }
-
-
 # ─────────────────────────────────────────────
 # Policy Analysis Logic
 # ─────────────────────────────────────────────
@@ -193,15 +220,26 @@ def run(state: dict) -> dict:
         state["policy_result"] = policy_result
 
         # Step 3: Nếu cần thêm info từ MCP (e.g., ticket status), gọi get_ticket_info
+        # if needs_tool and any(kw in task.lower() for kw in ["ticket", "p1", "jira"]):
+        #     mcp_result = _call_mcp_tool("get_ticket_info", {"ticket_id": "P1-LATEST"})
+        #     state["mcp_tools_used"].append(mcp_result)
+        #     state["history"].append(f"[{WORKER_NAME}] called MCP get_ticket_info")
         if needs_tool and any(kw in task.lower() for kw in ["ticket", "p1", "jira"]):
             mcp_result = _call_mcp_tool("get_ticket_info", {"ticket_id": "P1-LATEST"})
             state["mcp_tools_used"].append(mcp_result)
             state["history"].append(f"[{WORKER_NAME}] called MCP get_ticket_info")
 
+            if mcp_result.get("output") and not mcp_result.get("error"):
+                state["ticket_info"] = mcp_result["output"]
+
         worker_io["output"] = {
             "policy_applies": policy_result["policy_applies"],
             "exceptions_count": len(policy_result.get("exceptions_found", [])),
+            "policy_name": policy_result.get("policy_name"),
+            "sources": policy_result.get("source", []),
             "mcp_calls": len(state["mcp_tools_used"]),
+            "mcp_tool_names": [x.get("tool") for x in state.get("mcp_tools_used", [])],
+            "has_ticket_info": "ticket_info" in state,
         }
         state["history"].append(
             f"[{WORKER_NAME}] policy_applies={policy_result['policy_applies']}, "
