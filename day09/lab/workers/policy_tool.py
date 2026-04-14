@@ -16,9 +16,11 @@ Gọi độc lập để test:
     python workers/policy_tool.py
 """
 #v1
+import json
 import os
 import sys
 from typing import Optional
+from urllib import error, request
 
 WORKER_NAME = "policy_tool_worker"
 
@@ -29,23 +31,43 @@ WORKER_NAME = "policy_tool_worker"
 
 def _call_mcp_tool(tool_name: str, tool_input: dict) -> dict:
     """
-    Gọi MCP tool.
+    Gọi MCP tool qua HTTP FastAPI server.
 
-    Sprint 3 TODO: Implement bằng cách import mcp_server hoặc gọi HTTP.
-
-    Hiện tại: Import trực tiếp từ mcp_server.py (trong-process mock).
+    Không đổi logic worker; chỉ đổi transport layer từ in-process import
+    sang HTTP POST để đạt mức Advanced.
     """
     from datetime import datetime
 
+    mcp_server_url = os.getenv("MCP_SERVER_URL", "http://127.0.0.1:8000")
+    endpoint = f"{mcp_server_url.rstrip('/')}/tools/call"
+    payload = {"tool": tool_name, "input": tool_input}
+
     try:
-        # TODO Sprint 3: Thay bằng real MCP client nếu dùng HTTP server
-        from mcp_server import dispatch_tool
-        result = dispatch_tool(tool_name, tool_input)
+        req = request.Request(
+            endpoint,
+            data=json.dumps(payload).encode("utf-8"),
+            headers={"Content-Type": "application/json"},
+            method="POST",
+        )
+        with request.urlopen(req, timeout=10) as resp:
+            body = resp.read().decode("utf-8")
+            result = json.loads(body)
+            result.setdefault("tool", tool_name)
+            result.setdefault("input", tool_input)
+            result.setdefault("timestamp", datetime.now().isoformat())
+            result.setdefault("error", None)
+            return result
+    except error.HTTPError as e:
+        try:
+            err_body = e.read().decode("utf-8")
+            parsed = json.loads(err_body)
+        except Exception:
+            parsed = {"detail": err_body if 'err_body' in locals() else str(e)}
         return {
             "tool": tool_name,
             "input": tool_input,
-            "output": result,
-            "error": None,
+            "output": None,
+            "error": {"code": "MCP_HTTP_ERROR", "reason": parsed},
             "timestamp": datetime.now().isoformat(),
         }
     except Exception as e:
