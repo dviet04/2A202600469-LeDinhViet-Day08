@@ -1,0 +1,136 @@
+{
+  "task": "Khách hàng đặt đơn ngày 31/01/2026 và yêu cầu hoàn tiền ngày 07/02/2026. Sản phẩm lỗi nhà sản xuất, chưa kích hoạt, không phải Flash Sale. Được hoàn tiền không?",
+  "route_reason": "task contains policy/access keyword: ['hoàn tiền', 'flash sale']",
+  "risk_high": false,
+  "needs_tool": true,
+  "hitl_triggered": false,
+  "retrieved_chunks": [
+    {
+      "text": "[MOCK] Không thể query ChromaDB: CUDA error: no kernel image is available for execution on the device\nCUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.\nFor debugging consider passing CUDA_LAUNCH_BLOCKING=1\nCompile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.\n. Kết quả giả lập.",
+      "source": "mock_data",
+      "score": 0.5
+    }
+  ],
+  "retrieved_sources": [
+    "mock_data"
+  ],
+  "policy_result": {
+    "policy_applies": false,
+    "policy_name": "refund_policy_v4",
+    "exceptions_found": [
+      {
+        "type": "flash_sale_exception",
+        "rule": "Đơn hàng Flash Sale không được hoàn tiền (Điều 3, chính sách hoàn tiền v4).",
+        "source": "policy_refund_v4.txt",
+        "blocks_refund": true
+      },
+      {
+        "type": "temporal_scoping_v3",
+        "rule": "Đơn hàng đặt trước 01/02/2026 áp dụng chính sách hoàn tiền phiên bản 3 (không có trong tài liệu hiện tại — cần xác nhận với CS Team).",
+        "source": "policy_refund_v4.txt",
+        "blocks_refund": false
+      }
+    ],
+    "source": [
+      "mock_data"
+    ],
+    "policy_version_note": "Đơn hàng đặt trước 01/02/2026 áp dụng chính sách v3 (không có trong tài liệu hiện tại). Cần xác nhận với CS Team.",
+    "access_level_detected": null,
+    "explanation": "Rule-based analysis: 2 exception(s) detected."
+  },
+  "mcp_tools_used": [
+    {
+      "tool": "search_kb",
+      "input": {
+        "query": "Khách hàng đặt đơn ngày 31/01/2026 và yêu cầu hoàn tiền ngày 07/02/2026. Sản phẩm lỗi nhà sản xuất, chưa kích hoạt, không phải Flash Sale. Được hoàn tiền không?",
+        "top_k": 3
+      },
+      "output": {
+        "chunks": [
+          {
+            "text": "[MOCK] Không thể query ChromaDB: CUDA error: no kernel image is available for execution on the device\nCUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.\nFor debugging consider passing CUDA_LAUNCH_BLOCKING=1\nCompile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.\n. Kết quả giả lập.",
+            "source": "mock_data",
+            "score": 0.5
+          }
+        ],
+        "sources": [
+          "mock_data"
+        ],
+        "total_found": 1
+      },
+      "error": null,
+      "timestamp": "2026-04-14T11:49:00.563738"
+    }
+  ],
+  "worker_io_logs": [
+    {
+      "worker": "retrieval_worker",
+      "input": {
+        "task": "Khách hàng đặt đơn ngày 31/01/2026 và yêu cầu hoàn tiền ngày 07/02/2026. Sản phẩm lỗi nhà sản xuất, chưa kích hoạt, không phải Flash Sale. Được hoàn tiền không?",
+        "top_k": 3
+      },
+      "output": null,
+      "error": {
+        "code": "RETRIEVAL_FAILED",
+        "reason": "CUDA error: no kernel image is available for execution on the device\nCUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.\nFor debugging consider passing CUDA_LAUNCH_BLOCKING=1\nCompile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.\n"
+      }
+    },
+    {
+      "worker": "policy_tool_worker",
+      "input": {
+        "task": "Khách hàng đặt đơn ngày 31/01/2026 và yêu cầu hoàn tiền ngày 07/02/2026. Sản phẩm lỗi nhà sản xuất, chưa kích hoạt, không phải Flash Sale. Được hoàn tiền không?",
+        "chunks_count": 0,
+        "needs_tool": true
+      },
+      "output": {
+        "policy_applies": false,
+        "exceptions_count": 2,
+        "mcp_calls": 1,
+        "access_level_detected": null
+      },
+      "error": null
+    },
+    {
+      "worker": "synthesis_worker",
+      "input": {
+        "task": "Khách hàng đặt đơn ngày 31/01/2026 và yêu cầu hoàn tiền ngày 07/02/2026. Sản phẩm lỗi nhà sản xuất, chưa kích hoạt, không phải Flash Sale. Được hoàn tiền không?",
+        "chunks_count": 1,
+        "has_policy": true
+      },
+      "output": {
+        "answer_length": 795,
+        "sources": [
+          "mock_data"
+        ],
+        "confidence": 0.25
+      },
+      "error": null
+    }
+  ],
+  "final_answer": "Dựa vào thông tin trong tài liệu, có một số điểm cần lưu ý:\n\n1. Đơn hàng được đặt vào ngày 31/01/2026, tức là trước ngày 01/02/2026. Theo chính sách hoàn tiền, đơn hàng đặt trước 01/02/2026 sẽ áp dụng chính sách hoàn tiền phiên bản 3, nhưng thông tin chi tiết về chính sách này không có trong tài liệu hiện tại và cần xác nhận với CS Team [policy_refund_v4.txt].\n\n2. Sản phẩm lỗi nhà sản xuất, chưa kích hoạt và không phải Flash Sale, điều này có thể là yếu tố thuận lợi cho việc hoàn tiền, nhưng vì chính sách hoàn tiền phiên bản 3 không được nêu rõ, nên không thể xác định chắc chắn.\n\nKết luận: Không thể xác định chắc chắn liệu khách hàng có được hoàn tiền hay không mà không có thông tin chi tiết về chính sách hoàn tiền phiên bản 3. Cần xác nhận với CS Team để có câu trả lời chính xác hơn.",
+  "sources": [
+    "mock_data"
+  ],
+  "confidence": 0.25,
+  "history": [
+    "[supervisor] received: Khách hàng đặt đơn ngày 31/01/2026 và yêu cầu hoàn tiền ngày 07/02/2026. Sản phẩ",
+    "[supervisor] → route=policy_tool_worker | reason=task contains policy/access keyword: ['hoàn tiền', 'flash sale']",
+    "[policy_tool_worker] starting...",
+    "[policy_tool_worker] no chunks yet — calling retrieval first",
+    "[retrieval_worker] ERROR: CUDA error: no kernel image is available for execution on the device\nCUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.\nFor debugging consider passing CUDA_LAUNCH_BLOCKING=1\nCompile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.\n",
+    "[policy_tool_worker] MCP search_kb called: no prior chunks",
+    "[policy_tool_worker] policy_applies=False, exceptions=2, mcp_calls=1",
+    "[synthesis_worker] starting...",
+    "[synthesis_worker] confidence=0.25, sources=['mock_data']",
+    "[graph] completed in 4714ms | workers=['retrieval_worker', 'policy_tool_worker', 'synthesis_worker'] | confidence=0.25"
+  ],
+  "workers_called": [
+    "retrieval_worker",
+    "policy_tool_worker",
+    "synthesis_worker"
+  ],
+  "supervisor_route": "policy_tool_worker",
+  "latency_ms": 4714,
+  "run_id": "run_20260414_114900",
+  "question_id": "q12"
+}

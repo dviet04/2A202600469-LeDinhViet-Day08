@@ -1,0 +1,59 @@
+{
+  "task": "Quy trình xử lý sự cố P1 gồm mấy bước và bước đầu tiên là gì?",
+  "route_reason": "task contains retrieval keyword: ['p1', 'sự cố', 'bước']",
+  "risk_high": false,
+  "needs_tool": false,
+  "hitl_triggered": false,
+  "retrieved_chunks": [],
+  "retrieved_sources": [],
+  "policy_result": {},
+  "mcp_tools_used": [],
+  "worker_io_logs": [
+    {
+      "worker": "retrieval_worker",
+      "input": {
+        "task": "Quy trình xử lý sự cố P1 gồm mấy bước và bước đầu tiên là gì?",
+        "top_k": 3
+      },
+      "output": null,
+      "error": {
+        "code": "RETRIEVAL_FAILED",
+        "reason": "CUDA error: no kernel image is available for execution on the device\nCUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.\nFor debugging consider passing CUDA_LAUNCH_BLOCKING=1\nCompile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.\n"
+      }
+    },
+    {
+      "worker": "synthesis_worker",
+      "input": {
+        "task": "Quy trình xử lý sự cố P1 gồm mấy bước và bước đầu tiên là gì?",
+        "chunks_count": 0,
+        "has_policy": false
+      },
+      "output": {
+        "answer_length": 83,
+        "sources": [],
+        "confidence": 0.15
+      },
+      "error": null
+    }
+  ],
+  "final_answer": "Không tìm thấy thông tin về quy trình xử lý sự cố P1 trong tài liệu nội bộ hiện có.",
+  "sources": [],
+  "confidence": 0.15,
+  "history": [
+    "[supervisor] received: Quy trình xử lý sự cố P1 gồm mấy bước và bước đầu tiên là gì?",
+    "[supervisor] → route=retrieval_worker | reason=task contains retrieval keyword: ['p1', 'sự cố', 'bước']",
+    "[retrieval_worker] starting...",
+    "[retrieval_worker] ERROR: CUDA error: no kernel image is available for execution on the device\nCUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.\nFor debugging consider passing CUDA_LAUNCH_BLOCKING=1\nCompile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.\n",
+    "[synthesis_worker] starting...",
+    "[synthesis_worker] confidence=0.15, sources=[]",
+    "[graph] completed in 2684ms | workers=['retrieval_worker', 'synthesis_worker'] | confidence=0.15"
+  ],
+  "workers_called": [
+    "retrieval_worker",
+    "synthesis_worker"
+  ],
+  "supervisor_route": "retrieval_worker",
+  "latency_ms": 2684,
+  "run_id": "run_20260414_114847",
+  "question_id": "q08"
+}

@@ -1,0 +1,104 @@
+{
+  "task": "ERR-403-AUTH là lỗi gì và cách xử lý?",
+  "route_reason": "unknown error code (ERR-xxx) without clear context → human review | risk_high=True (emergency/unknown context) | human approved → retrieval",
+  "risk_high": true,
+  "needs_tool": false,
+  "hitl_triggered": true,
+  "retrieved_chunks": [
+    {
+      "text": "Điều 1: Phạm vi áp dụng\nChính sách này áp dụng cho tất cả các đơn hàng được đặt trên hệ thống nội bộ kể từ ngày 01/02/2026.\nCác đơn hàng đặt trước ngày có hiệu lực sẽ áp dụng theo chính sách hoàn tiền phiên bản 3.",
+      "source": "policy_refund_v4.txt",
+      "score": 0.4027,
+      "metadata": {
+        "section": "Điều 1: Phạm vi áp dụng",
+        "source": "policy_refund_v4.txt",
+        "chunk_index": 26
+      }
+    },
+    {
+      "text": "Phần 5: Lịch sử phiên bản\nv2026.1 (2026-01-15): Cập nhật SLA P1 resolution từ 6 giờ xuống 4 giờ.\nv2025.3 (2025-09-01): Thêm quy trình escalation tự động.\nv2025.1 (2025-03-01): Phiên bản đầu tiên.",
+      "source": "sla_p1_2026.txt",
+      "score": 0.3959,
+      "metadata": {
+        "source": "sla_p1_2026.txt",
+        "chunk_index": 40,
+        "section": "Phần 5: Lịch sử phiên bản"
+      }
+    },
+    {
+      "text": "Điều 4: Quy trình xử lý yêu cầu hoàn tiền\nBước 1: Khách hàng gửi yêu cầu qua hệ thống ticket nội bộ với category \"Refund Request\".\nBước 2: CS Agent xem xét trong vòng 1 ngày làm việc và xác nhận điều kiện đủ điều kiện.\nBước 3: Nếu đủ điều kiện, chuyển yêu cầu sang Finance Team để xử lý hoàn tiền.\nBước 4: Finance Team xử lý trong 3-5 ngày làm việc và thông báo kết quả cho khách hàng.",
+      "source": "policy_refund_v4.txt",
+      "score": 0.3922,
+      "metadata": {
+        "source": "policy_refund_v4.txt",
+        "chunk_index": 29,
+        "section": "Điều 4: Quy trình xử lý yêu cầu hoàn tiền"
+      }
+    }
+  ],
+  "retrieved_sources": [
+    "policy_refund_v4.txt",
+    "sla_p1_2026.txt"
+  ],
+  "policy_result": {},
+  "mcp_tools_used": [],
+  "worker_io_logs": [
+    {
+      "worker": "retrieval_worker",
+      "input": {
+        "task": "ERR-403-AUTH là lỗi gì và cách xử lý?",
+        "top_k": 3
+      },
+      "output": {
+        "chunks_count": 3,
+        "sources": [
+          "policy_refund_v4.txt",
+          "sla_p1_2026.txt"
+        ]
+      },
+      "error": null
+    },
+    {
+      "worker": "synthesis_worker",
+      "input": {
+        "task": "ERR-403-AUTH là lỗi gì và cách xử lý?",
+        "chunks_count": 3,
+        "has_policy": false
+      },
+      "output": {
+        "answer_length": 75,
+        "sources": [
+          "policy_refund_v4.txt",
+          "sla_p1_2026.txt"
+        ],
+        "confidence": 0.25
+      },
+      "error": null
+    }
+  ],
+  "final_answer": "Không tìm thấy thông tin về lỗi ERR-403-AUTH trong tài liệu nội bộ hiện có.",
+  "sources": [
+    "policy_refund_v4.txt",
+    "sla_p1_2026.txt"
+  ],
+  "confidence": 0.25,
+  "history": [
+    "[supervisor] received: ERR-403-AUTH là lỗi gì và cách xử lý?",
+    "[supervisor] → route=human_review | reason=unknown error code (ERR-xxx) without clear context → human review | risk_high=True (emergency/unknown context)",
+    "[human_review] HITL triggered — auto-approved in lab mode",
+    "[retrieval_worker] starting...",
+    "[retrieval_worker] retrieved 3 chunks from ['policy_refund_v4.txt', 'sla_p1_2026.txt']",
+    "[synthesis_worker] starting...",
+    "[synthesis_worker] confidence=0.25, sources=['policy_refund_v4.txt', 'sla_p1_2026.txt']",
+    "[graph] completed in 22191ms | workers=['human_review', 'retrieval_worker', 'synthesis_worker'] | confidence=0.25"
+  ],
+  "workers_called": [
+    "human_review",
+    "retrieval_worker",
+    "synthesis_worker"
+  ],
+  "supervisor_route": "retrieval_worker",
+  "latency_ms": 22191,
+  "run_id": "run_20260414_113629",
+  "question_id": "q09"
+}
