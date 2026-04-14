@@ -10,12 +10,12 @@
       "source": "support/sla-p1-2026.pdf",
       "score": 0.6115,
       "metadata": {
-        "source": "support/sla-p1-2026.pdf",
         "access": "internal",
-        "section": "Phần 3: Quy trình xử lý sự cố P1",
+        "department": "IT",
         "section_number": "3",
-        "effective_date": "2026-01-15",
-        "department": "IT"
+        "source": "support/sla-p1-2026.pdf",
+        "section": "Phần 3: Quy trình xử lý sự cố P1",
+        "effective_date": "2026-01-15"
       }
     },
     {
@@ -23,12 +23,12 @@
       "source": "support/sla-p1-2026.pdf",
       "score": 0.5813,
       "metadata": {
-        "source": "support/sla-p1-2026.pdf",
         "section": "Phần 2: SLA theo mức độ ưu tiên",
-        "section_number": "2",
         "access": "internal",
+        "section_number": "2",
+        "department": "IT",
         "effective_date": "2026-01-15",
-        "department": "IT"
+        "source": "support/sla-p1-2026.pdf"
       }
     },
     {
@@ -36,12 +36,12 @@
       "source": "support/sla-p1-2026.pdf",
       "score": 0.5529,
       "metadata": {
-        "department": "IT",
-        "effective_date": "2026-01-15",
-        "access": "internal",
-        "section": "Phần 4: Công cụ và kênh liên lạc",
         "section_number": "4",
-        "source": "support/sla-p1-2026.pdf"
+        "source": "support/sla-p1-2026.pdf",
+        "section": "Phần 4: Công cụ và kênh liên lạc",
+        "department": "IT",
+        "access": "internal",
+        "effective_date": "2026-01-15"
       }
     }
   ],
@@ -73,35 +73,35 @@
         "has_policy": false
       },
       "output": {
-        "answer_length": 342,
+        "answer_length": 399,
         "sources": [
           "support/sla-p1-2026.pdf"
         ],
-        "confidence": 0.59
+        "confidence": 0.79
       },
       "error": null
     }
   ],
-  "final_answer": "1. Người nhận thông báo đầu tiên là on-call engineer qua kênh Slack #incident-p1 và email incident@company.internal ngay lập tức sau khi ticket được tạo [1].\n2. Escalation sẽ xảy ra tự động lên Senior Engineer nếu không có phản hồi trong 10 phút kể từ khi ticket được tạo. Do ticket được tạo lúc 22:47, nên escalation sẽ xảy ra lúc 22:57 [2].",
+  "final_answer": "1. Ai sẽ nhận thông báo đầu tiên và qua kênh nào?\n   - On-call engineer sẽ nhận thông báo đầu tiên qua kênh Slack #incident-p1 và email incident@company.internal ngay lập tức sau khi ticket được tạo [1].\n\n2. Escalation xảy ra lúc mấy giờ?\n   - Escalation sẽ xảy ra tự động lên Senior Engineer nếu không có phản hồi trong 10 phút. Nếu ticket P1 được tạo lúc 22:47, escalation sẽ xảy ra lúc 22:57 [2].",
   "sources": [
     "support/sla-p1-2026.pdf"
   ],
-  "confidence": 0.59,
+  "confidence": 0.79,
   "history": [
     "[supervisor] received: Ticket P1 được tạo lúc 22:47. Ai sẽ nhận thông báo đầu tiên và qua kênh nào? Esc",
     "[supervisor] → route=retrieval_worker | reason=task contains retrieval keyword: ['p1', 'ticket', 'escalation']",
     "[retrieval_worker] starting...",
     "[retrieval_worker] retrieved 3 new chunks from ['support/sla-p1-2026.pdf']",
     "[synthesis_worker] starting...",
-    "[synthesis_worker] answer generated, confidence=0.59, sources=['support/sla-p1-2026.pdf']",
-    "[graph] completed in 3570ms | workers=['retrieval_worker', 'synthesis_worker'] | confidence=0.59"
+    "[synthesis_worker] answer generated, confidence=0.79, sources=['support/sla-p1-2026.pdf']",
+    "[graph] completed in 3127ms | workers=['retrieval_worker', 'synthesis_worker'] | confidence=0.79"
   ],
   "workers_called": [
     "retrieval_worker",
     "synthesis_worker"
   ],
   "supervisor_route": "retrieval_worker",
-  "latency_ms": 3570,
-  "run_id": "run_20260414_171546",
+  "latency_ms": 3127,
+  "run_id": "run_20260414_172650",
   "question_id": "q11"
 }

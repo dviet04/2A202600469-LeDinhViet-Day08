@@ -10,11 +10,11 @@
       "source": "support/helpdesk-faq.md",
       "score": 0.628,
       "metadata": {
-        "access": "internal",
-        "source": "support/helpdesk-faq.md",
-        "section_number": "1",
-        "department": "IT",
         "section": "Section 1: Tài khoản và mật khẩu",
+        "department": "IT",
+        "source": "support/helpdesk-faq.md",
+        "access": "internal",
+        "section_number": "1",
         "effective_date": "2026-01-20"
       }
     },
@@ -24,11 +24,11 @@
       "score": 0.4565,
       "metadata": {
         "section_number": "6",
-        "source": "it/access-control-sop.md",
-        "section": "Section 6: Audit và review định kỳ",
-        "effective_date": "2026-01-01",
         "access": "internal",
-        "department": "IT Security"
+        "department": "IT Security",
+        "section": "Section 6: Audit và review định kỳ",
+        "source": "it/access-control-sop.md",
+        "effective_date": "2026-01-01"
       }
     },
     {
@@ -37,17 +37,17 @@
       "score": 0.4027,
       "metadata": {
         "effective_date": "2026-01-20",
-        "section_number": "5",
-        "department": "IT",
         "section": "Section 5: Email và lịch",
-        "access": "internal",
-        "source": "support/helpdesk-faq.md"
+        "department": "IT",
+        "section_number": "5",
+        "source": "support/helpdesk-faq.md",
+        "access": "internal"
       }
     }
   ],
   "retrieved_sources": [
-    "it/access-control-sop.md",
-    "support/helpdesk-faq.md"
+    "support/helpdesk-faq.md",
+    "it/access-control-sop.md"
   ],
   "policy_result": {},
   "mcp_tools_used": [],
@@ -61,8 +61,8 @@
       "output": {
         "chunks_count": 3,
         "sources": [
-          "it/access-control-sop.md",
-          "support/helpdesk-faq.md"
+          "support/helpdesk-faq.md",
+          "it/access-control-sop.md"
         ]
       },
       "error": null
@@ -77,8 +77,8 @@
       "output": {
         "answer_length": 129,
         "sources": [
-          "it/access-control-sop.md",
-          "support/helpdesk-faq.md"
+          "support/helpdesk-faq.md",
+          "it/access-control-sop.md"
         ],
         "confidence": 0.65
       },
@@ -87,25 +87,25 @@
   ],
   "final_answer": "Tài khoản bị khóa sau 5 lần đăng nhập sai liên tiếp. Để mở khóa, bạn có thể liên hệ IT Helpdesk hoặc tự reset qua portal SSO [1].",
   "sources": [
-    "it/access-control-sop.md",
-    "support/helpdesk-faq.md"
+    "support/helpdesk-faq.md",
+    "it/access-control-sop.md"
   ],
   "confidence": 0.65,
   "history": [
     "[supervisor] received: Tài khoản bị khóa sau bao nhiêu lần đăng nhập sai?",
     "[supervisor] → route=retrieval_worker | reason=task contains retrieval keyword: ['tài khoản', 'bị khóa']",
     "[retrieval_worker] starting...",
-    "[retrieval_worker] retrieved 3 new chunks from ['it/access-control-sop.md', 'support/helpdesk-faq.md']",
+    "[retrieval_worker] retrieved 3 new chunks from ['support/helpdesk-faq.md', 'it/access-control-sop.md']",
     "[synthesis_worker] starting...",
-    "[synthesis_worker] answer generated, confidence=0.65, sources=['it/access-control-sop.md', 'support/helpdesk-faq.md']",
-    "[graph] completed in 3597ms | workers=['retrieval_worker', 'synthesis_worker'] | confidence=0.65"
+    "[synthesis_worker] answer generated, confidence=0.65, sources=['support/helpdesk-faq.md', 'it/access-control-sop.md']",
+    "[graph] completed in 2432ms | workers=['retrieval_worker', 'synthesis_worker'] | confidence=0.65"
   ],
   "workers_called": [
     "retrieval_worker",
     "synthesis_worker"
   ],
   "supervisor_route": "retrieval_worker",
-  "latency_ms": 3597,
-  "run_id": "run_20260414_171520",
+  "latency_ms": 2432,
+  "run_id": "run_20260414_172633",
   "question_id": "q04"
 }

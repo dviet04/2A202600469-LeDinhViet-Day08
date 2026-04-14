@@ -10,11 +10,11 @@
       "source": "it/access-control-sop.md",
       "score": 0.5662,
       "metadata": {
-        "source": "it/access-control-sop.md",
         "section": "Section 2: Phân cấp quyền truy cập",
+        "source": "it/access-control-sop.md",
         "section_number": "2",
-        "effective_date": "2026-01-01",
         "access": "internal",
+        "effective_date": "2026-01-01",
         "department": "IT Security"
       }
     },
@@ -23,39 +23,39 @@
       "source": "it/access-control-sop.md",
       "score": 0.5057,
       "metadata": {
+        "access": "internal",
+        "section_number": "3",
+        "source": "it/access-control-sop.md",
         "section": "Section 3: Quy trình yêu cầu cấp quyền",
         "department": "IT Security",
-        "section_number": "3",
-        "access": "internal",
-        "effective_date": "2026-01-01",
-        "source": "it/access-control-sop.md"
+        "effective_date": "2026-01-01"
       }
     },
     {
       "text": "Bước 1: Nhân viên gửi yêu cầu nghỉ phép qua hệ thống HR Portal (https://hr.company.internal) ít nhất 3 ngày làm việc trước ngày nghỉ.\nBước 2: Line Manager phê duyệt hoặc từ chối trong vòng 1 ngày làm việc.\nBước 3: Nhân viên nhận thông báo qua email sau khi được phê duyệt.\n\nTrường hợp khẩn cấp: Có thể gửi yêu cầu muộn hơn nhưng phải được Line Manager đồng ý qua tin nhắn trực tiếp.",
       "source": "hr/leave-policy-2026.pdf",
-      "score": 0.4775,
+      "score": 0.4776,
       "metadata": {
-        "access": "internal",
-        "effective_date": "2026-01-01",
-        "section": "Phần 2: Quy trình xin nghỉ phép",
         "department": "HR",
+        "source": "hr/leave-policy-2026.pdf",
+        "section": "Phần 2: Quy trình xin nghỉ phép",
         "section_number": "2",
-        "source": "hr/leave-policy-2026.pdf"
+        "effective_date": "2026-01-01",
+        "access": "internal"
       }
     }
   ],
   "retrieved_sources": [
-    "it/access-control-sop.md",
-    "hr/leave-policy-2026.pdf"
+    "hr/leave-policy-2026.pdf",
+    "it/access-control-sop.md"
   ],
   "policy_result": {
     "policy_applies": true,
     "policy_name": "refund_policy_v4",
     "exceptions_found": [],
     "source": [
-      "it/access-control-sop.md",
-      "hr/leave-policy-2026.pdf"
+      "hr/leave-policy-2026.pdf",
+      "it/access-control-sop.md"
     ],
     "policy_version_note": "",
     "explanation": "Analyzed via rule-based policy check. TODO: upgrade to LLM-based analysis."
@@ -71,8 +71,8 @@
       "output": {
         "chunks_count": 3,
         "sources": [
-          "it/access-control-sop.md",
-          "hr/leave-policy-2026.pdf"
+          "hr/leave-policy-2026.pdf",
+          "it/access-control-sop.md"
         ]
       },
       "error": null
@@ -89,12 +89,13 @@
         "exceptions_count": 0,
         "policy_name": "refund_policy_v4",
         "sources": [
-          "it/access-control-sop.md",
-          "hr/leave-policy-2026.pdf"
+          "hr/leave-policy-2026.pdf",
+          "it/access-control-sop.md"
         ],
         "mcp_calls": 0,
         "mcp_tool_names": [],
-        "has_ticket_info": false
+        "has_ticket_info": false,
+        "has_access_check": false
       },
       "error": null
     },
@@ -106,20 +107,20 @@
         "has_policy": true
       },
       "output": {
-        "answer_length": 89,
+        "answer_length": 96,
         "sources": [
-          "it/access-control-sop.md",
-          "hr/leave-policy-2026.pdf"
+          "hr/leave-policy-2026.pdf",
+          "it/access-control-sop.md"
         ],
         "confidence": 0.26
       },
       "error": null
     }
   ],
-  "final_answer": "Để cấp quyền Level 3, cần có sự phê duyệt của: Line Manager, IT Admin và IT Security. [1]",
+  "final_answer": "Để cấp quyền Level 3, yêu cầu phải được phê duyệt bởi Line Manager, IT Admin và IT Security [1].",
   "sources": [
-    "it/access-control-sop.md",
-    "hr/leave-policy-2026.pdf"
+    "hr/leave-policy-2026.pdf",
+    "it/access-control-sop.md"
   ],
   "confidence": 0.26,
   "history": [
@@ -127,11 +128,11 @@
     "[supervisor] → route=policy_tool_worker | reason=task contains policy/access keyword: ['cấp quyền', 'level 3', 'phê duyệt']",
     "[policy_tool_worker] starting...",
     "[policy_tool_worker] no chunks yet — calling retrieval first",
-    "[retrieval_worker] retrieved 3 new chunks from ['it/access-control-sop.md', 'hr/leave-policy-2026.pdf']",
+    "[retrieval_worker] retrieved 3 new chunks from ['hr/leave-policy-2026.pdf', 'it/access-control-sop.md']",
     "[policy_tool_worker] policy_applies=True, exceptions=0",
     "[synthesis_worker] starting...",
-    "[synthesis_worker] answer generated, confidence=0.26, sources=['it/access-control-sop.md', 'hr/leave-policy-2026.pdf']",
-    "[graph] completed in 3786ms | workers=['retrieval_worker', 'policy_tool_worker', 'synthesis_worker'] | confidence=0.26"
+    "[synthesis_worker] answer generated, confidence=0.26, sources=['hr/leave-policy-2026.pdf', 'it/access-control-sop.md']",
+    "[graph] completed in 2166ms | workers=['retrieval_worker', 'policy_tool_worker', 'synthesis_worker'] | confidence=0.26"
   ],
   "workers_called": [
     "retrieval_worker",
@@ -139,7 +140,7 @@
     "synthesis_worker"
   ],
   "supervisor_route": "policy_tool_worker",
-  "latency_ms": 3786,
-  "run_id": "run_20260414_171516",
+  "latency_ms": 2166,
+  "run_id": "run_20260414_172631",
   "question_id": "q03"
 }

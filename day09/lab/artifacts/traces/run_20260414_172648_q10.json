@@ -10,23 +10,23 @@
       "source": "policy/refund-v4.pdf",
       "score": 0.6471,
       "metadata": {
-        "section": "Điều 5: Hình thức hoàn tiền",
         "department": "CS",
-        "source": "policy/refund-v4.pdf",
         "effective_date": "2026-02-01",
-        "access": "internal"
+        "access": "internal",
+        "section": "Điều 5: Hình thức hoàn tiền",
+        "source": "policy/refund-v4.pdf"
       }
     },
     {
       "text": "Hoàn tiền — Điều kiện áp dụng:\nYêu cầu được gửi trong vòng 7 ngày kể từ thời điểm xác nhận đơn hàng.\n\nNgoại lệ không được hoàn tiền:\n- Sản phẩm thuộc danh mục hàng kỹ thuật số (license key, subscription).\n- Đơn hàng đã áp dụng mã giảm giá đặc biệt theo chương trình khuyến mãi Flash Sale.\n- Sản phẩm đã được kích hoạt hoặc đăng ký tài khoản.",
       "source": "policy/refund-v4.pdf",
-      "score": 0.4396,
+      "score": 0.4395,
       "metadata": {
-        "section": "Điều 3: Điều kiện áp dụng và ngoại lệ",
         "access": "internal",
+        "section": "Điều 3: Điều kiện áp dụng và ngoại lệ",
         "source": "policy/refund-v4.pdf",
-        "effective_date": "2026-02-01",
-        "department": "CS"
+        "department": "CS",
+        "effective_date": "2026-02-01"
       }
     },
     {
@@ -34,11 +34,11 @@
       "source": "policy/refund-v4.pdf",
       "score": 0.3878,
       "metadata": {
-        "section": "Điều 1: Phạm vi áp dụng",
+        "source": "policy/refund-v4.pdf",
         "effective_date": "2026-02-01",
         "access": "internal",
-        "department": "CS",
-        "source": "policy/refund-v4.pdf"
+        "section": "Điều 1: Phạm vi áp dụng",
+        "department": "CS"
       }
     }
   ],
@@ -93,7 +93,8 @@
         ],
         "mcp_calls": 0,
         "mcp_tool_names": [],
-        "has_ticket_info": false
+        "has_ticket_info": false,
+        "has_access_check": false
       },
       "error": null
     },
@@ -128,7 +129,7 @@
     "[policy_tool_worker] policy_applies=False, exceptions=1",
     "[synthesis_worker] starting...",
     "[synthesis_worker] answer generated, confidence=0.72, sources=['policy/refund-v4.pdf']",
-    "[graph] completed in 6194ms | workers=['retrieval_worker', 'policy_tool_worker', 'synthesis_worker'] | confidence=0.72"
+    "[graph] completed in 2220ms | workers=['retrieval_worker', 'policy_tool_worker', 'synthesis_worker'] | confidence=0.72"
   ],
   "workers_called": [
     "retrieval_worker",
@@ -136,7 +137,7 @@
     "synthesis_worker"
   ],
   "supervisor_route": "policy_tool_worker",
-  "latency_ms": 6194,
-  "run_id": "run_20260414_171539",
+  "latency_ms": 2220,
+  "run_id": "run_20260414_172648",
   "question_id": "q10"
 }

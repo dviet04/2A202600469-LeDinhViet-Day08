@@ -8,14 +8,14 @@
     {
       "text": "4.1 Điều kiện remote:\n- Nhân viên sau probation period có thể làm remote tối đa 2 ngày/tuần.\n- Team Lead phải phê duyệt lịch remote qua HR Portal.\n- Ngày onsite bắt buộc: Thứ 3 và Thứ 5 theo lịch team.\n\n4.2 Yêu cầu kỹ thuật khi remote:\n- Kết nối VPN bắt buộc khi làm việc với hệ thống nội bộ.\n- Camera bật trong các cuộc họp team.",
       "source": "hr/leave-policy-2026.pdf",
-      "score": 0.6727,
+      "score": 0.6726,
       "metadata": {
-        "effective_date": "2026-01-01",
-        "source": "hr/leave-policy-2026.pdf",
-        "access": "internal",
         "section": "Phần 4: Remote work policy",
+        "department": "HR",
+        "access": "internal",
         "section_number": "4",
-        "department": "HR"
+        "source": "hr/leave-policy-2026.pdf",
+        "effective_date": "2026-01-01"
       }
     },
     {
@@ -23,12 +23,12 @@
       "source": "hr/leave-policy-2026.pdf",
       "score": 0.5384,
       "metadata": {
-        "department": "HR",
-        "section": "Phần 1: Các loại nghỉ phép",
-        "section_number": "1",
         "access": "internal",
         "source": "hr/leave-policy-2026.pdf",
-        "effective_date": "2026-01-01"
+        "department": "HR",
+        "effective_date": "2026-01-01",
+        "section": "Phần 1: Các loại nghỉ phép",
+        "section_number": "1"
       }
     },
     {
@@ -36,18 +36,18 @@
       "source": "it/access-control-sop.md",
       "score": 0.5215,
       "metadata": {
-        "section": "Section 2: Phân cấp quyền truy cập",
-        "source": "it/access-control-sop.md",
         "access": "internal",
+        "section": "Section 2: Phân cấp quyền truy cập",
         "effective_date": "2026-01-01",
         "section_number": "2",
+        "source": "it/access-control-sop.md",
         "department": "IT Security"
       }
     }
   ],
   "retrieved_sources": [
-    "it/access-control-sop.md",
-    "hr/leave-policy-2026.pdf"
+    "hr/leave-policy-2026.pdf",
+    "it/access-control-sop.md"
   ],
   "policy_result": {},
   "mcp_tools_used": [],
@@ -61,8 +61,8 @@
       "output": {
         "chunks_count": 3,
         "sources": [
-          "it/access-control-sop.md",
-          "hr/leave-policy-2026.pdf"
+          "hr/leave-policy-2026.pdf",
+          "it/access-control-sop.md"
         ]
       },
       "error": null
@@ -77,8 +77,8 @@
       "output": {
         "answer_length": 200,
         "sources": [
-          "it/access-control-sop.md",
-          "hr/leave-policy-2026.pdf"
+          "hr/leave-policy-2026.pdf",
+          "it/access-control-sop.md"
         ],
         "confidence": 0.79
       },
@@ -87,25 +87,25 @@
   ],
   "final_answer": "Nhân viên được làm remote tối đa 2 ngày mỗi tuần sau khi hoàn thành probation period. Lịch remote cần được Team Lead phê duyệt qua HR Portal. Ngày onsite bắt buộc là Thứ 3 và Thứ 5 theo lịch team [1].",
   "sources": [
-    "it/access-control-sop.md",
-    "hr/leave-policy-2026.pdf"
+    "hr/leave-policy-2026.pdf",
+    "it/access-control-sop.md"
   ],
   "confidence": 0.79,
   "history": [
     "[supervisor] received: Nhân viên được làm remote tối đa mấy ngày mỗi tuần?",
     "[supervisor] → route=retrieval_worker | reason=task contains retrieval keyword: ['remote']",
     "[retrieval_worker] starting...",
-    "[retrieval_worker] retrieved 3 new chunks from ['it/access-control-sop.md', 'hr/leave-policy-2026.pdf']",
+    "[retrieval_worker] retrieved 3 new chunks from ['hr/leave-policy-2026.pdf', 'it/access-control-sop.md']",
     "[synthesis_worker] starting...",
-    "[synthesis_worker] answer generated, confidence=0.79, sources=['it/access-control-sop.md', 'hr/leave-policy-2026.pdf']",
-    "[graph] completed in 4582ms | workers=['retrieval_worker', 'synthesis_worker'] | confidence=0.79"
+    "[synthesis_worker] answer generated, confidence=0.79, sources=['hr/leave-policy-2026.pdf', 'it/access-control-sop.md']",
+    "[graph] completed in 2930ms | workers=['retrieval_worker', 'synthesis_worker'] | confidence=0.79"
   ],
   "workers_called": [
     "retrieval_worker",
     "synthesis_worker"
   ],
   "supervisor_route": "retrieval_worker",
-  "latency_ms": 4582,
-  "run_id": "run_20260414_171523",
+  "latency_ms": 2930,
+  "run_id": "run_20260414_172636",
   "question_id": "q05"
 }

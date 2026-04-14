@@ -10,10 +10,10 @@
       "source": "policy/refund-v4.pdf",
       "score": 0.5801,
       "metadata": {
-        "effective_date": "2026-02-01",
-        "access": "internal",
         "department": "CS",
         "source": "policy/refund-v4.pdf",
+        "effective_date": "2026-02-01",
+        "access": "internal",
         "section": "Điều 3: Điều kiện áp dụng và ngoại lệ"
       }
     },
@@ -22,12 +22,12 @@
       "source": "support/helpdesk-faq.md",
       "score": 0.4551,
       "metadata": {
-        "section_number": "3",
-        "effective_date": "2026-01-20",
         "section": "Section 3: Phần mềm và license",
         "access": "internal",
-        "source": "support/helpdesk-faq.md",
-        "department": "IT"
+        "section_number": "3",
+        "department": "IT",
+        "effective_date": "2026-01-20",
+        "source": "support/helpdesk-faq.md"
       }
     },
     {
@@ -35,11 +35,11 @@
       "source": "policy/refund-v4.pdf",
       "score": 0.4094,
       "metadata": {
-        "access": "internal",
-        "section": "Điều 5: Hình thức hoàn tiền",
-        "department": "CS",
         "effective_date": "2026-02-01",
-        "source": "policy/refund-v4.pdf"
+        "department": "CS",
+        "section": "Điều 5: Hình thức hoàn tiền",
+        "source": "policy/refund-v4.pdf",
+        "access": "internal"
       }
     }
   ],
@@ -103,7 +103,8 @@
         ],
         "mcp_calls": 0,
         "mcp_tool_names": [],
-        "has_ticket_info": false
+        "has_ticket_info": false,
+        "has_access_check": false
       },
       "error": null
     },
@@ -115,7 +116,7 @@
         "has_policy": true
       },
       "output": {
-        "answer_length": 207,
+        "answer_length": 192,
         "sources": [
           "policy/refund-v4.pdf",
           "support/helpdesk-faq.md"
@@ -125,7 +126,7 @@
       "error": null
     }
   ],
-  "final_answer": "Sản phẩm kỹ thuật số (license key) không được hoàn tiền. Điều này được quy định rõ trong chính sách hoàn tiền: \"Sản phẩm thuộc danh mục hàng kỹ thuật số (license key, subscription) không được hoàn tiền\" [1].",
+  "final_answer": "Sản phẩm kỹ thuật số (license key) không được hoàn tiền. Điều này được quy định trong chính sách hoàn tiền, cụ thể là sản phẩm thuộc danh mục hàng kỹ thuật số không đủ điều kiện hoàn tiền [1].",
   "sources": [
     "policy/refund-v4.pdf",
     "support/helpdesk-faq.md"
@@ -140,7 +141,7 @@
     "[policy_tool_worker] policy_applies=False, exceptions=2",
     "[synthesis_worker] starting...",
     "[synthesis_worker] answer generated, confidence=0.69, sources=['policy/refund-v4.pdf', 'support/helpdesk-faq.md']",
-    "[graph] completed in 3739ms | workers=['retrieval_worker', 'policy_tool_worker', 'synthesis_worker'] | confidence=0.69"
+    "[graph] completed in 2906ms | workers=['retrieval_worker', 'policy_tool_worker', 'synthesis_worker'] | confidence=0.69"
   ],
   "workers_called": [
     "retrieval_worker",
@@ -148,7 +149,7 @@
     "synthesis_worker"
   ],
   "supervisor_route": "policy_tool_worker",
-  "latency_ms": 3739,
-  "run_id": "run_20260414_171531",
+  "latency_ms": 2906,
+  "run_id": "run_20260414_172642",
   "question_id": "q07"
 }

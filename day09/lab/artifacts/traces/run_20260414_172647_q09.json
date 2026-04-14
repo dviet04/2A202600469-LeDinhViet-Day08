@@ -10,12 +10,12 @@
       "source": "it/access-control-sop.md",
       "score": 0.4006,
       "metadata": {
-        "department": "IT Security",
-        "source": "it/access-control-sop.md",
-        "section_number": "3",
+        "section": "Section 3: Quy trình yêu cầu cấp quyền",
         "access": "internal",
+        "section_number": "3",
         "effective_date": "2026-01-01",
-        "section": "Section 3: Quy trình yêu cầu cấp quyền"
+        "department": "IT Security",
+        "source": "it/access-control-sop.md"
       }
     },
     {
@@ -23,10 +23,10 @@
       "source": "it/access-control-sop.md",
       "score": 0.383,
       "metadata": {
-        "department": "IT Security",
-        "section_number": "6",
         "effective_date": "2026-01-01",
         "source": "it/access-control-sop.md",
+        "department": "IT Security",
+        "section_number": "6",
         "section": "Section 6: Audit và review định kỳ",
         "access": "internal"
       }
@@ -36,18 +36,18 @@
       "source": "support/helpdesk-faq.md",
       "score": 0.3739,
       "metadata": {
+        "department": "IT",
+        "section_number": "1",
         "access": "internal",
         "source": "support/helpdesk-faq.md",
-        "section_number": "1",
-        "department": "IT",
-        "section": "Section 1: Tài khoản và mật khẩu",
-        "effective_date": "2026-01-20"
+        "effective_date": "2026-01-20",
+        "section": "Section 1: Tài khoản và mật khẩu"
       }
     }
   ],
   "retrieved_sources": [
-    "it/access-control-sop.md",
-    "support/helpdesk-faq.md"
+    "support/helpdesk-faq.md",
+    "it/access-control-sop.md"
   ],
   "policy_result": {},
   "mcp_tools_used": [],
@@ -61,8 +61,8 @@
       "output": {
         "chunks_count": 3,
         "sources": [
-          "it/access-control-sop.md",
-          "support/helpdesk-faq.md"
+          "support/helpdesk-faq.md",
+          "it/access-control-sop.md"
         ]
       },
       "error": null
@@ -77,8 +77,8 @@
       "output": {
         "answer_length": 84,
         "sources": [
-          "it/access-control-sop.md",
-          "support/helpdesk-faq.md"
+          "support/helpdesk-faq.md",
+          "it/access-control-sop.md"
         ],
         "confidence": 0.3
       },
@@ -87,8 +87,8 @@
   ],
   "final_answer": "Không đủ thông tin trong tài liệu nội bộ để xác định lỗi ERR-403-AUTH và cách xử lý.",
   "sources": [
-    "it/access-control-sop.md",
-    "support/helpdesk-faq.md"
+    "support/helpdesk-faq.md",
+    "it/access-control-sop.md"
   ],
   "confidence": 0.3,
   "history": [
@@ -96,10 +96,10 @@
     "[supervisor] → route=human_review | reason=unknown error code (ERR-xxx) without clear context → human review | risk_high=True (emergency/unknown context)",
     "[human_review] HITL triggered — auto-approved in lab mode",
     "[retrieval_worker] starting...",
-    "[retrieval_worker] retrieved 3 new chunks from ['it/access-control-sop.md', 'support/helpdesk-faq.md']",
+    "[retrieval_worker] retrieved 3 new chunks from ['support/helpdesk-faq.md', 'it/access-control-sop.md']",
     "[synthesis_worker] starting...",
-    "[synthesis_worker] answer generated, confidence=0.3, sources=['it/access-control-sop.md', 'support/helpdesk-faq.md']",
-    "[graph] completed in 2125ms | workers=['human_review', 'retrieval_worker', 'synthesis_worker'] | confidence=0.30"
+    "[synthesis_worker] answer generated, confidence=0.3, sources=['support/helpdesk-faq.md', 'it/access-control-sop.md']",
+    "[graph] completed in 1177ms | workers=['human_review', 'retrieval_worker', 'synthesis_worker'] | confidence=0.30"
   ],
   "workers_called": [
     "human_review",
@@ -107,7 +107,7 @@
     "synthesis_worker"
   ],
   "supervisor_route": "retrieval_worker",
-  "latency_ms": 2125,
-  "run_id": "run_20260414_171537",
+  "latency_ms": 1177,
+  "run_id": "run_20260414_172647",
   "question_id": "q09"
 }

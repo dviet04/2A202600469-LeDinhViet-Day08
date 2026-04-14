@@ -279,6 +279,26 @@ def run(state: dict) -> dict:
 
                     if mcp_result.get("output") and not mcp_result.get("error"):
                         state["access_check"] = mcp_result["output"]
+        if needs_tool and any(kw in task.lower() for kw in [
+            "tạo ticket", "create ticket", "mở ticket", "log incident", "log ticket"
+        ]):
+            priority = _extract_priority(task)
+            title = task[:80]
+            description = f"Auto-created from policy_tool_worker for task: {task}"
+
+            mcp_result = _call_mcp_tool(
+                "create_ticket",
+                {
+                    "priority": priority,
+                    "title": title,
+                    "description": description,
+                }
+            )
+            state["mcp_tools_used"].append(mcp_result)
+            state["history"].append(f"[{WORKER_NAME}] called MCP create_ticket")
+
+            if mcp_result.get("output") and not mcp_result.get("error"):
+                state["created_ticket"] = mcp_result["output"]
 
         worker_io["output"] = {
             "policy_applies": policy_result["policy_applies"],
