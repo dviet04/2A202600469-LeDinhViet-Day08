@@ -64,7 +64,7 @@ VARIANTS = [
     # },
     {
         "retrieval_mode": "dense",
-        "top_k_search": 20,
+        "top_k_search": 10,
         "top_k_select": 3,
         "use_rerank": False,
         "query_transform_strategy": "expansion",
