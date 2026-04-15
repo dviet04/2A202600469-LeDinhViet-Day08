@@ -36,6 +36,9 @@
 | `chunk_text` < 20 ký tự | **Quarantine** | Không đủ nội dung nghiệp vụ; cần review |
 | Duplicate nội dung | **Quarantine** (giữ bản đầu) | Tránh embedding trùng ảnh hưởng rank |
 | `chunk_text` rỗng hoàn toàn | **Quarantine** | Placeholder / lỗi export |
+| Không còn bản ghi nào sau clean | **Halt pipeline** | Vi phạm `min_one_row` (halt) |
+| `chunk_text` chứa ký tự BOM (`\ufeff`) sau clean | **Quarantine** | Cleaning rule bị bypass; vi phạm `no_bom_in_chunk_text` |
+| `effective_date` < `min_effective_date` theo `ALLOWED_DOC_IDS` | **Quarantine** | Policy đã lỗi thời; vi phạm `no_stale_policy_below_min_effective_date` |
 
 **Ai approve merge lại?** Cleaning/Quality Owner review `artifacts/quarantine/*.csv` định kỳ; merge lại qua chỉnh sửa raw và rerun pipeline.
 
