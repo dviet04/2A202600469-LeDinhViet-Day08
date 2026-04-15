@@ -13,8 +13,8 @@ Chạy nhanh:
 Chế độ inject (Sprint 3 — bỏ fix refund để expectation fail / eval xấu):
   python etl_pipeline.py run --no-refund-fix --skip-validate
 """
-
 from __future__ import annotations
+import logging
 
 import argparse
 import json
@@ -22,6 +22,7 @@ import os
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
+
 
 # Fix UnicodeEncodeError trên Windows (cp1252 không encode được tiếng Việt / ký tự đặc biệt)
 if hasattr(sys.stdout, "reconfigure"):
@@ -45,11 +46,27 @@ MAN_DIR = ART / "manifests"
 QUAR_DIR = ART / "quarantine"
 CLEAN_DIR = ART / "cleaned"
 
+def setup_logger(log_path: Path):
+    logger = logging.getLogger("etl_pipeline")
+    logger.setLevel(logging.INFO)
 
-def _log(path: Path, line: str) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    with path.open("a", encoding="utf-8") as f:
-        f.write(line + "\n")
+    if logger.handlers:
+        return logger
+
+    formatter = logging.Formatter(
+        "%(asctime)s | %(levelname)s | %(message)s"
+    )
+
+    file_handler = logging.FileHandler(log_path, encoding="utf-8")
+    file_handler.setFormatter(formatter)
+
+    console_handler = logging.StreamHandler(sys.stdout)
+    console_handler.setFormatter(formatter)
+
+    logger.addHandler(file_handler)
+    logger.addHandler(console_handler)
+
+    return logger
 
 
 def cmd_run(args: argparse.Namespace) -> int:
@@ -60,19 +77,17 @@ def cmd_run(args: argparse.Namespace) -> int:
         return 1
 
     log_path = LOG_DIR / f"run_{run_id.replace(':', '-')}.log"
+    logger = setup_logger(log_path)
+
     for p in (LOG_DIR, MAN_DIR, QUAR_DIR, CLEAN_DIR):
         p.mkdir(parents=True, exist_ok=True)
-
-    def log(msg: str) -> None:
-        print(msg)
-        _log(log_path, msg)
 
     rows = load_raw_csv(raw_path)
     raw_count = len(rows)
     ingest_start_ts = datetime.now(timezone.utc).isoformat()
-    log(f"run_id={run_id}")
-    log(f"ingest_start_timestamp={ingest_start_ts}")
-    log(f"raw_records={raw_count}")
+    logger.info(f"run_id={run_id}")
+    logger.info(f"ingest_start_timestamp={ingest_start_ts}")
+    logger.info(f"raw_records={raw_count}")
 
     cleaned, quarantine = clean_rows(
         rows,
@@ -83,26 +98,25 @@ def cmd_run(args: argparse.Namespace) -> int:
     write_cleaned_csv(cleaned_path, cleaned)
     write_quarantine_csv(quar_path, quarantine)
 
-    log(f"cleaned_records={len(cleaned)}")
-    log(f"quarantine_records={len(quarantine)}")
-    log(f"cleaned_csv={cleaned_path.relative_to(ROOT)}")
-    log(f"quarantine_csv={quar_path.relative_to(ROOT)}")
+    logger.info(f"cleaned_records={len(cleaned)}")
+    logger.info(f"quarantine_records={len(quarantine)}")
+    logger.info(f"cleaned_csv={cleaned_path.relative_to(ROOT)}")
+    logger.info(f"quarantine_csv={quar_path.relative_to(ROOT)}")
 
     results, halt = run_expectations(cleaned)
     for r in results:
         sym = "OK" if r.passed else "FAIL"
-        log(f"expectation[{r.name}] {sym} ({r.severity}) :: {r.detail}")
+        logger.info(f"expectation[{r.name}] {sym} ({r.severity}) :: {r.detail}")
     if halt and not args.skip_validate:
-        log("PIPELINE_HALT: expectation suite failed (halt).")
+        logger.info("PIPELINE_HALT: expectation suite failed (halt).")
         return 2
     if halt and args.skip_validate:
-        log("WARN: expectation failed but --skip-validate → tiếp tục embed (chỉ dùng cho demo Sprint 3).")
-
+        logger.warning("Expectation failed but --skip-validate is enabled; continuing to embed.")
     # Embed
     embed_ok = cmd_embed_internal(
         cleaned_path,
         run_id=run_id,
-        log=log,
+        logger=logger,
     )
     if not embed_ok:
         return 3
@@ -111,7 +125,7 @@ def cmd_run(args: argparse.Namespace) -> int:
     if cleaned:
         latest_exported = max((r.get("exported_at") or "" for r in cleaned), default="")
     embed_publish_ts = datetime.now(timezone.utc).isoformat()
-    log(f"embed_publish_timestamp={embed_publish_ts}")
+    logger.info(f"embed_publish_timestamp={embed_publish_ts}")
 
     manifest = {
         "run_id": run_id,
@@ -131,21 +145,21 @@ def cmd_run(args: argparse.Namespace) -> int:
     }
     man_path = MAN_DIR / f"manifest_{run_id.replace(':', '-')}.json"
     man_path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8")
-    log(f"manifest_written={man_path.relative_to(ROOT)}")
+    logger.info(f"manifest_written={man_path.relative_to(ROOT)}")
 
     status, fdetail = check_manifest_freshness(man_path, sla_hours=float(os.environ.get("FRESHNESS_SLA_HOURS", "24")))
-    log(f"freshness_check={status} {json.dumps(fdetail, ensure_ascii=False)}")
+    logger.info(f"freshness_check={status} {json.dumps(fdetail, ensure_ascii=False)}")
 
-    log("PIPELINE_OK")
+    logger.info("PIPELINE_OK")
     return 0
 
 
-def cmd_embed_internal(cleaned_csv: Path, *, run_id: str, log) -> bool:
+def cmd_embed_internal(cleaned_csv: Path, *, run_id: str, logger: logging.Logger) -> bool:
     try:
         import chromadb
         from chromadb.utils import embedding_functions
     except ImportError:
-        log("ERROR: chromadb chưa cài. pip install -r requirements.txt")
+        logger.error("chromadb chưa cài. Hãy chạy: pip install -r requirements.txt")
         return False
 
     db_path = os.environ.get("CHROMA_DB_PATH", str(ROOT / "chroma_db"))
@@ -156,7 +170,7 @@ def cmd_embed_internal(cleaned_csv: Path, *, run_id: str, log) -> bool:
 
     rows = load_csv(cleaned_csv)
     if not rows:
-        log("WARN: cleaned CSV rỗng — không embed.")
+        logger.warning("Cleaned CSV rỗng — không embed.")
         return True
 
     client = chromadb.PersistentClient(path=db_path)
@@ -171,9 +185,9 @@ def cmd_embed_internal(cleaned_csv: Path, *, run_id: str, log) -> bool:
         drop = sorted(prev_ids - set(ids))
         if drop:
             col.delete(ids=drop)
-            log(f"embed_prune_removed={len(drop)}")
+            logger.info(f"embed_prune_removed={len(drop)}")
     except Exception as e:
-        log(f"WARN: embed prune skip: {e}")
+        logger.warning(f"Embed prune skip: {e}")
     documents = [r["chunk_text"] for r in rows]
     metadatas = [
         {
@@ -185,7 +199,7 @@ def cmd_embed_internal(cleaned_csv: Path, *, run_id: str, log) -> bool:
     ]
     # Idempotent: upsert theo chunk_id
     col.upsert(ids=ids, documents=documents, metadatas=metadatas)
-    log(f"embed_upsert count={len(ids)} collection={collection_name}")
+    logger.info(f"embed_upsert count={len(ids)} collection={collection_name}")
     return True
 
 
