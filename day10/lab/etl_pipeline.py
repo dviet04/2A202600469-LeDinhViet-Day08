@@ -86,7 +86,7 @@ def cmd_run(args: argparse.Namespace) -> int:
     raw_count = len(rows)
     if raw_count == 0:
         logger.error("Raw data rỗng --> pipeline dừng.")
-    return 1
+        return 1
     
     ingest_start_ts = datetime.now(timezone.utc).isoformat()
     logger.info(f"run_id={run_id}")
