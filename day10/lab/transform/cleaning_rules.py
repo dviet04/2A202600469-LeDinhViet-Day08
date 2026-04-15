@@ -26,15 +26,14 @@ from pathlib import Path
 from typing import Any, Dict, List, Tuple
 
 # Khớp export hợp lệ trong lab (mở rộng khi nhóm thêm doc mới — phải đồng bộ contract).
-ALLOWED_DOC_IDS = frozenset(
-    {
-        "policy_refund_v4",
-        "sla_p1_2026",
-        "it_helpdesk_faq",
-        "hr_leave_policy",
-        "access_sop",
-    }
-)
+
+ALLOWED_DOC_IDS = {
+    "policy_refund_v4": {"min_effective_date": None},
+    "sla_p1_2026": {"min_effective_date": None},
+    "it_helpdesk_faq": {"min_effective_date": None},
+    "hr_leave_policy": {"min_effective_date": "2026-01-01"},
+    "access_sop": {"min_effective_date": None},
+}
 
 _ISO_DATE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 _DMY_SLASH = re.compile(r"^(\d{2})/(\d{2})/(\d{4})$")
@@ -182,12 +181,16 @@ def clean_rows(
             continue
 
         # R3: HR stale version
-        if doc_id == "hr_leave_policy" and eff_norm < "2026-01-01":
+        doc_rules = ALLOWED_DOC_IDS.get(doc_id, {})
+        min_eff = doc_rules.get("min_effective_date")
+
+        if min_eff is not None and eff_norm < min_eff:
             quarantine.append(
                 {
                     **raw,
-                    "reason": "stale_hr_policy_effective_date",
+                    "reason": "stale_policy_effective_date",
                     "effective_date_normalized": eff_norm,
+                    "min_effective_date_required": min_eff,
                 }
             )
             continue

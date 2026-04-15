@@ -10,7 +10,7 @@
 ```mermaid
 flowchart LR
     A[Raw Export\npolicy_export_dirty.csv] -->|load_raw_csv| B[Ingest\ningest_start_timestamp ①]
-    B -->|clean_rows R1-R9| C[Transform / Clean]
+    B -->|C[Transform / Clean]
     C -->|quarantine| Q[(quarantine/*.csv)]
     C -->|cleaned rows| D[Validate\nExpectation Suite\nE1-E8]
     D -->|halt=True & --skip-validate=False| HALT[PIPELINE_HALT\nexit 2]
